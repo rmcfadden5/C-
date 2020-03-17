@@ -1,0 +1,146 @@
+#include <iostream> 
+#include <string> 
+using namespace std;
+int binarySearch(const int anArray[], int first, int last, int target);
+int fact(int n);
+int iterativeRabbit(int n);
+int rabbit(int n);
+void writeArrayBackward(char anArray2[], int first, int last);
+void writeBackward(string s, int i);
+void writeBackwardIterative(string s);
+int sumUpTo(int n);
+const int SIZE = 8;
+int main()
+{
+	int anArray[SIZE] = { 1, 5, 9, 12, 15, 21, 29, 31 };
+	char anArray2[3] = { 'c','a','t' };
+	//char A, B, C;
+	string s = "cat";
+
+	int last = sizeof(anArray) / sizeof(anArray[0]);
+	cout << "1. Binary search with anArray " << endl << "Enter target to search for ";
+	int target;
+	cin >> target;
+	int indexValue = binarySearch(anArray, 0, last - 1, target);
+	if (indexValue == -1)
+	{
+		cout << "Search for " << target << " returns -1" << endl;
+	}
+	else
+	{	
+		cout << "Search for " << target <<
+			" returns " << indexValue << endl;
+	}
+	cout << endl << "Enter target to search for ";
+	cin >> target;
+	indexValue = binarySearch(anArray, 0, last - 1, target);
+	if (indexValue == -1)
+	{
+		cout << "Search for " << target << " returns -1" << endl;
+	}
+	else
+	{
+		cout << "1. Binary search with anArray " << endl << "Search for " << target <<
+			" returns " << indexValue << endl;
+	}
+	cout << endl << "2. fact(3) returns " << fact(3) << endl;
+	cout << endl << "3. iterativeRabbit(6) returns " << iterativeRabbit(6) << endl;
+	cout << endl << "4. rabbit(6) returns " << rabbit(6) << endl;
+	cout << endl << "5. writeArrayBackward(anArray2, 0, 2) returns ";
+	writeArrayBackward(anArray2, 0, 3);
+	cout << endl;
+	cout << endl << "6. writeBackward(s) returns ";
+	writeBackward(s, 0);
+	cout << endl;
+	cout << endl << "7. writeBackwardIterative(s) returns ";
+	writeBackwardIterative(s);
+	cout << endl;
+	cout << endl << "8. sumUpTo(10) returns " << sumUpTo(10) << endl;
+	system("pause");
+}
+
+int binarySearch(const int anArray[], int first, int last, int target)
+{
+	if (last >= first)
+	{
+		int mid = first + (last - first) / 2;
+
+		if (anArray[mid] == target)
+			return mid;
+
+		if (anArray[mid] > target)
+			return binarySearch(anArray, first, mid - 1, target);
+
+		return binarySearch(anArray, mid + 1, last, target);
+	}
+	return -1;
+}
+
+int fact(int n)
+{
+	if (n == 0)
+		return 1;
+
+	else
+		n = n * fact(n - 1);
+}
+
+int iterativeRabbit(int n)
+{
+	int a = 0;
+	int b = 1;
+	int c;
+
+	if (n == 0)
+		return a;
+
+	for (int i = 2; i <= n; i++)
+	{
+		c = a + b;
+		a = b;
+		b = c;
+	}
+	return b;
+}
+
+int rabbit(int n)
+{
+	if (n <= 1)
+		return n;
+	else
+		return rabbit(n - 1) + rabbit(n - 2);
+}
+
+void writeArrayBackward(char anArray2[], int first, int last)
+{
+	if (first >= last)
+		return;
+
+	cout << anArray2[last-1];
+	writeArrayBackward(anArray2, first++, last-first);
+}
+
+void writeBackward(string s, int i)
+{
+	if (i <= s.length())
+	{
+		cout << s[s.length() - i];
+		writeBackward(s, i + 1);
+	}
+}
+
+void writeBackwardIterative(string s)
+{
+	for (int i = s.length()-1; i >= 0; i--)
+	{
+		cout << s[i];
+	}
+}
+
+int sumUpTo(int n)
+{
+	if (n == 0)
+		return n;
+	else
+		return sumUpTo(n - 1) + n;
+}
