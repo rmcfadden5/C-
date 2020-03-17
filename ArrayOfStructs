@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
+using namespace std;
+
+struct Node
+{
+	int data;           //size of int is 4 bytes
+	struct Node *next;   //size of node is 8 bytes
+}*first = NULL;
+
+void create(int A[], int n)
+{
+	struct Node *t, *last;
+	first = (struct Node*) malloc(sizeof(struct Node));  // 12 bytes
+	first->data = A[0];
+	first->next = NULL;
+	last = first;
+
+	for (int i = 1; i < n; i++)
+	{
+		t = (struct Node*) malloc(sizeof(struct Node));
+		t->data = A[i];
+		t->next = NULL;
+		last->next = t;
+		last = t;
+	}
+}
+
+void Display(struct Node*p)
+{
+	while (p != NULL)
+	{
+		cout << p->data << " ";
+		p = p->next;
+	}
+}
+
+void RDisplayTailRecursion(struct Node*p)
+{
+	if (p != NULL)
+	{
+		cout << p->data << " ";
+		RDisplayTailRecursion(p->next);
+	}
+}
+
+void RDisplayHeadRecursion(struct Node*p)
+{
+	if (p != NULL)
+	{
+		RDisplayHeadRecursion(p->next);
+		cout << p->data << " ";
+	}
+}
+
+int main()
+{
+	struct Node *temp;
+	int A[] = { 3,5,7,10,25,8,32,2 };
+	create(A, 8);
+	Display(first);
+	printf("\n");
+	RDisplayTailRecursion(first);
+	cout << endl;
+	RDisplayHeadRecursion(first);
+	system("pause");
+	return 0;
+}
