@@ -1,0 +1,60 @@
+// This program uses hours, pay rate, state tax and fed tax to determine gross
+// and net pay.
+
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	// Fill in the code to define payFile as an input file 
+	float gross;
+	float net;
+	float hours;
+	float payRate;
+	float stateTax;
+	float fedTax;
+
+	ifstream payFile;
+	ofstream outFile;
+
+	
+	// FILL IN THE CODE TO OPEN payFile AND ATTACH IT TO THE PHYSICAL FILE
+	   // NAMED payroll.dat
+	payFile.open("payroll.dat");
+	outFile.open("pay.out");
+
+	outFile << fixed << setprecision(2) << showpoint;
+
+	// FILL IN CODE TO WRITE A CONDITIONAL STATEMENT TO CHECK IF payfile 
+	// DOES NOT EXIST.
+	if(!payFile.is_open())
+	{
+		outFile << "Error opening file. \n";
+		outFile << "It may not exist where indicated" << endl;
+		system("pause");
+		return 1;
+	}
+
+	outFile << "Payrate      Hours    Gross Pay       Net Pay"
+		<< endl << endl;
+	// FILL IN CODE TO PRIME THE READ FOR THE payfile FILE.
+	// FILL IN CODE TO WRITE A LOOP CONDITION TO RUN WHILE payfile HAS MORE 
+	// DATA TO PROCESS.
+	while(payFile)
+	{
+		payFile >> hours >> payRate >> stateTax >> fedTax;
+		gross = payRate * hours;
+		net = gross - (gross * stateTax) - (gross * fedTax);
+		outFile << payRate << setw(15) << hours << setw(12) << gross
+			<< setw(12) << net << endl;
+		payFile.ignore(); // FILL IN THE CODE TO FINISH THIS WITH THE APPROPRIATE  
+				   // VARIABLE TO BE INPUT
+	}
+	payFile.close();
+	outFile.close();
+
+	system("pause");
+	return 0;
+}
