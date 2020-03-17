@@ -1,0 +1,527 @@
+//Ryan McFadden
+//CPSC 230
+//rmcfadden5@live.esu.edu
+//4/2/19
+//This program acts as a book library database, with a capacity to hold ten books, and methods for deleting, searching
+//adding, and editing the book records on file.
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+bool isOpen(string *, int);
+bool addBook(string*, int, string);
+int lookUpBook(string*, int, string);
+void bookInfo(string*, int, int);
+void editBook(string*, int, string);
+void deleteBook(string*, int);
+int display();
+int displayMenu();
+void theAddBook(string*, string*, string*, string*,
+	string*, string*, string*, string*, string,
+	string, string, string, string, string, string, string);
+void theLookUp(string*, string*, string*, string*, string*,
+	string*, string*, string*);
+void theEditBook(string*, string*, string*, string*,
+	string*, string*, string*, string*);
+void theDeleteBook(string*, string*, string*, string*,
+	string*, string*, string*, string*);
+
+const int SIZE = 10;
+
+int main()
+{
+	string *bookTitlePtr;
+	string *isbnPtr;
+	string *authorPtr;
+	string *publisherPtr;
+	string *dateAddedPtr;
+	string *qtyOnHandPtr;
+	string *wholesalePtr;
+	string *retailPtr;
+	bookTitlePtr = new string[SIZE];
+	isbnPtr = new string[SIZE];
+	authorPtr = new string[SIZE];
+	publisherPtr = new string[SIZE];
+	dateAddedPtr = new string[SIZE];
+	qtyOnHandPtr = new string[SIZE];
+	wholesalePtr = new string[SIZE];
+	retailPtr = new string[SIZE];
+
+	string bookTitle;
+	string isbn;
+	string author;
+	string publisher;
+	string dateAdded;
+	string qtyOnHand;
+	string wholeSale;
+	string retail;
+
+	bool good = false;
+	while (good == false)
+	{
+		int pick = display();
+		if (pick == 1)
+		{
+			//look up method
+			theLookUp(bookTitlePtr, isbnPtr, authorPtr, publisherPtr, dateAddedPtr,
+				qtyOnHandPtr, wholesalePtr, retailPtr);
+			cout << endl << endl << endl << endl;
+		}
+		else if (pick == 2)
+		{
+			//add book method
+			theAddBook(bookTitlePtr, isbnPtr, authorPtr, publisherPtr,
+				dateAddedPtr, qtyOnHandPtr, wholesalePtr, retailPtr, bookTitle,
+				isbn, author, publisher, dateAdded, qtyOnHand, wholeSale, retail);
+			cout << endl << endl << endl << endl;
+		}
+		else if (pick == 3)
+		{
+			//edit book method
+			theEditBook(bookTitlePtr, isbnPtr, authorPtr, publisherPtr,
+				dateAddedPtr, qtyOnHandPtr, wholesalePtr, retailPtr);
+			cout << endl << endl << endl << endl;
+		}
+		else if (pick == 4)
+		{
+			//delete method
+			theDeleteBook(bookTitlePtr, isbnPtr, authorPtr, publisherPtr,
+				dateAddedPtr, qtyOnHandPtr, wholesalePtr, retailPtr);
+			cout << endl << endl << endl << endl;
+		}
+		else
+		{
+			cout << endl << endl << "You selected item 5." << endl << endl << endl << endl << endl;
+			int pickM;
+			//return to main menu
+			pickM = displayMenu();
+			cout << endl;
+			if (pickM == 2)
+				break;
+
+		}
+	}
+	system("pause");
+}
+
+//-------------------------------------------------------------------------------------------------------
+//----------------------------------------DISPLAY METHOD---------------------------------------------------------------
+
+int display()
+{
+	int pick = 0;
+	cout << "Serendipity Booksellers" << endl << "   Inventory Database" << endl << endl;
+	cout << "1.Look Up Book" << endl << "2.Add a Book" << endl << "3.Edit a Book's Record" << endl << "4.Delete a Book" << endl;
+	cout << "5.Return to Main Menu" << endl << endl << "Enter your choice: ";
+	cin >> pick;
+	while (pick < 1 || pick > 5)
+	{
+		cout << "Pick must be between 1 and 5";
+		cin >> pick;
+	}
+	return pick;
+}
+
+//--------------------------------------------------------------------------------------------------------
+//-------------------------------------------DISPLAY MENU-------------------------------------------------------------
+
+int displayMenu()
+{
+	int pick = 0;
+	cout << "Serendipity Booksellers" << endl << "   Main Menu" << endl << endl;
+	cout << "1.Inventory Database Module" << endl << "2.Exit" << endl << endl << "Enter your choice ";
+	cin >> pick;
+	while (pick < 1 || pick > 2)
+	{
+		cout << "Pick must be between 1 and 2";
+		cin >> pick;
+	}
+	return pick;
+}
+
+//----------------------------------------------------------------------------------------------------------
+//-----------------------------------------OPEN ARRAY CHECK--------------------------------------------------------------
+
+bool isOpen(string *array, int SIZE)
+{
+	string empty = "";
+	bool done = false;
+	int index = 0;
+	while (done == false)
+	{
+		if (index == SIZE)
+			return false;
+
+		if (*(array + index) == empty)
+		{
+			//add book
+			return done = true;
+		}
+
+		index++;
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------
+//---------------------------------------------MINI ADD BOOK---------------------------------------------------------------
+
+bool addBook(string *array, int SIZE, string item)
+{
+	string empty = "";
+	bool done = false;
+	int index = 0;
+	while (done == false)
+	{
+		if (index == SIZE)
+			return false;
+
+		if (*(array + index) == empty)
+		{
+			//add book
+			*(array + index) = item;
+			return done = true;
+		}
+
+		index++;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------
+//-----------------------------------------MINI LOOK UP---------------------------------------------------------------------
+
+int lookUpBook(string *array, int SIZE, string title)
+{
+	bool done = false;
+	int index = 0;
+	while (done == false)
+	{
+		if (index == SIZE)
+			return -1;
+		if (*(array + index) == title)
+		{
+			return index;
+		}
+		index++;
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------BOOK INFO-------------------------------------------------------------------------
+
+void bookInfo(string* array, int SIZE, int selected)
+{
+	bool done = false;
+	int index = 0;
+	while (done == false)
+	{
+		if (index == SIZE)
+			break;
+		if (index == selected)
+			cout << *(array + index) << endl;
+		index++;
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------MINI EDIT BOOK--------------------------------------------------------------------------
+
+void editBook(string* array, int select, string item)
+{
+	*(array + select) = item;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------MINI DELETE BOOK-------------------------------------------------------------------------
+
+void deleteBook(string* array, int select)
+{
+	*(array + select) = "";
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------ADD BOOK------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------
+
+void theAddBook(string* array, string* array2, string* array3, string* array4,
+	string* array5, string* array6, string* array7, string* array8, string title,
+	string title2, string title3, string title4, string title5, string title6, string title7, string title8)
+{
+	bool cool = false;
+	cool = isOpen(array, SIZE);
+	if (cool == true)
+	{
+		//title
+		cout << endl << "Enter Title: ";
+		cin.ignore();
+		getline(cin, title);
+		addBook(array, SIZE, title);
+		//isbn
+		cout << endl << "Enter ISBN<#-###-#####-#>: ";
+		getline(cin, title2);
+		addBook(array2, SIZE, title2);
+		//author
+		cout << endl << "Enter Author: ";
+		getline(cin, title3);
+		addBook(array3, SIZE, title3);
+		//publisher
+		cout << endl << "Enter Publisher: ";
+		getline(cin, title4);
+		addBook(array4, SIZE, title4);
+		//date added
+		cout << endl << "Enter Date Added to Inventory<MM/DD/YYYY>: ";
+		getline(cin, title5);
+		addBook(array5, SIZE, title5);
+		//quantity
+		cout << endl << "Enter Quantity Being Added: ";
+		getline(cin, title6);
+		addBook(array6, SIZE, title6);
+		//wholesale
+		cout << endl << "Enter Wholesale Cost: ";
+		getline(cin, title7);
+		addBook(array7, SIZE, title7);
+		//retail
+		cout << endl << "Enter Retail Cost: ";
+		getline(cin, title8);
+		addBook(array8, SIZE, title8);
+
+		cout << endl << endl << "Record was successfully entered" << endl << endl;
+	}
+	else
+	{
+		cout << "No more books may be added to inventory" << endl << endl;
+		return;
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------LOOK UP BOOK---------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------
+
+void theLookUp(string* array, string* array2, string* array3, string* array4, string* array5,
+	 string* array6, string* array7, string* array8)
+{
+	string searchTitle;
+	int select = 0;
+	cout << "Enter the title of the book to search for: ";
+	cin.ignore();
+	getline(cin, searchTitle);
+
+	select = lookUpBook(array, SIZE, searchTitle);
+
+	if (select == -1)
+	{
+		cout << endl << "The book you searched for is not in the database" << endl;
+	}
+
+	else
+	{
+		cout << "                   Serendipity Booksellers" << endl;
+		cout << "                       Book information" << endl << endl;
+		cout << "ISBN: ";
+		bookInfo(array2, SIZE, select);
+		cout << "Title: ";
+		bookInfo(array, SIZE, select);
+		cout << "Author: ";
+		bookInfo(array3, SIZE, select);
+		cout << "Publisher: ";
+		bookInfo(array4, SIZE, select);
+		cout << "Date added: ";
+		bookInfo(array5, SIZE, select);
+		cout << "Qty on hand: ";
+		bookInfo(array6, SIZE, select);
+		cout << "Wholesale Price: ";
+		bookInfo(array7, SIZE, select);
+		cout << "Retail Price: ";
+		bookInfo(array8, SIZE, select);
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+//-----------------------------------EDIT BOOK------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------
+
+void theEditBook(string* array, string* array2, string* array3, string* array4, 
+	string* array5, string* array6, string* array7, string* array8)
+{
+	string searchTitle;
+	int select = 0;
+	cout << "Enter the title of the book to edit: ";
+	cin.ignore();
+	getline(cin, searchTitle);
+	select = lookUpBook(array, SIZE, searchTitle);
+	if (select == -1)
+	{
+		cout << "The book you searched for is not in the database" << endl << endl;
+		return;
+	}
+	cout << "                   Serendipity Booksellers" << endl;
+	cout << "                       Book information" << endl << endl;
+	cout << "ISBN: ";
+	bookInfo(array2, SIZE, select);
+	cout << "Title: ";
+	bookInfo(array, SIZE, select);
+	cout << "Author: ";
+	bookInfo(array3, SIZE, select);
+	cout << "Publisher: ";
+	bookInfo(array4, SIZE, select);
+	cout << "Date added: ";
+	bookInfo(array5, SIZE, select);
+	cout << "Qty on hand: ";
+	bookInfo(array6, SIZE, select);
+	cout << "Wholesale Price: ";
+	bookInfo(array7, SIZE, select);
+	cout << "Retail Price: ";
+	bookInfo(array8, SIZE, select);
+
+	int choose = 0;
+	while (choose != 9)
+	{
+		cout << endl << endl << endl << "You may edit any of the following fields" << endl;
+		cout << "1. ISBN" << endl << "2. Title" << endl << "3. Author's Name" << endl << "4. Publisher's name";
+		cout << endl << "5. Date Book was Added to Inventory" << endl << "6. Quantity on Hand" << endl << "7. Wholesale Cost";
+		cout << endl << "8. Retail Price" << endl << "9. Exit" << endl << endl;
+		cout << "Enter your choice: ";
+		string item;
+		cin >> choose;
+		cout << endl;
+
+		if (choose == 1)
+		{
+			cout << "Current ISBN: " << *(array2 + select) << endl;
+			cout << "Enter New ISBN: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array2, select, item);
+		}
+		if (choose == 2)
+		{
+			cout << "Current Title: " << *(array + select) << endl;
+			cout << "Enter New Title: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array, select, item);
+		}
+		if (choose == 3)
+		{
+
+			cout << "Current Author's Name: " << *(array3 + select) << endl;
+			cout << "Enter New Author's Name: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array3, select, item);
+		}
+		if (choose == 4)
+		{
+
+			cout << "Current Publisher's Name: " << *(array4 + select) << endl;
+			cout << "Enter New Publisher's Name: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array4, select, item);
+		}
+		if (choose == 5)
+		{
+
+			cout << "Current Date Added: " << *(array5 + select) << endl;
+			cout << "Enter New Date Added: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array5, select, item);
+		}
+		if (choose == 6)
+		{
+
+			cout << "Current Quantity on Hand: " << *(array6 + select) << endl;
+			cout << "Enter New Quantity on Hand: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array6, select, item);
+		}
+		if (choose == 7)
+		{
+
+			cout << "Current Wholesale Cost: " << *(array7 + select) << endl;
+			cout << "Enter New Wholesale Cost: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array7, select, item);
+		}
+		if (choose == 8)
+		{
+
+			cout << "Current Retail Price: " << *(array8 + select) << endl;
+			cout << "Enter New Retail Price: ";
+			cin.ignore();
+			getline(cin, item);
+			editBook(array8, select, item);
+		}
+		if (choose == 9)
+		{
+			return;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+//------------------------------------DELETE BOOK-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------
+
+void theDeleteBook(string* array, string* array2, string* array3, string* array4,
+	 string* array5, string* array6, string* array7, string* array8)
+{
+	string searchTitle;
+	string yeno;
+	int select = 0;
+	cout << "Enter the title of the book to search for: ";
+	cin.ignore();
+	getline(cin, searchTitle);
+	select = lookUpBook(array, SIZE, searchTitle);
+	if (select == -1)
+	{
+		cout << "The book you searched for is not in the database" << endl;
+		return;
+	}
+
+	cout << "                   Serendipity Booksellers" << endl;
+	cout << "                       Book information" << endl << endl;
+	cout << "ISBN: ";
+	bookInfo(array2, SIZE, select);
+	cout << "Title: ";
+	bookInfo(array, SIZE, select);
+	cout << "Author: ";
+	bookInfo(array3, SIZE, select);
+	cout << "Publisher: ";
+	bookInfo(array4, SIZE, select);
+	cout << "Date added: ";
+	bookInfo(array5, SIZE, select);
+	cout << "Qty on hand: ";
+	bookInfo(array6, SIZE, select);
+	cout << "Wholesale Price: ";
+	bookInfo(array7, SIZE, select);
+	cout << "Retail Price: ";
+	bookInfo(array8, SIZE, select);
+
+	cout << endl << endl << "Are you sure you want to delete this book? (Y/N): ";
+	getline(cin, yeno);
+	while (yeno != "N" && yeno != "n" && yeno != "Y" && yeno != "y")
+	{
+		cout << "Must enter Y(y) or N(n): ";
+		getline(cin, yeno);
+	}
+	if (yeno == "N" || yeno == "n")
+		return;
+	else
+	{
+		*(array + select) = "";
+		*(array2 + select) = "";
+		*(array3 + select) = "";
+		*(array4 + select) = "";
+		*(array5 + select) = "";
+		*(array6 + select) = "";
+		*(array7 + select) = "";
+		*(array8 + select) = "";
+		cout << "This book has been deleted";
+	}
+}
